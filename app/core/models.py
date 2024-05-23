@@ -8,6 +8,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
+from django.contrib.postgres.fields import ArrayField
 
 
 class UserManager(BaseUserManager):
@@ -52,4 +53,19 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.base_recipe
+    
+class Movie(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete= models.CASCADE
+    )
+    title = models.CharField(max_length=255)
+    director = models.CharField(max_length=255)
+    main_character = ArrayField(models.CharField(max_length=255), blank=True, null=True)
+    duration  = models.IntegerField()
+    rating = models.IntegerField()
+    description = models.TextField(max_length= 255)
+
+    def __str__(self):
+        return self.base_movie
     
